@@ -1,75 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy New Year 2025 🎉</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: black;
-            color: white;
-        }
-        canvas {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy New Year 2025!</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      text-align: center;
+    }
+    .falling-object {
+      position: absolute;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      from {
+        top: -50px;
+      }
+      to {
+        top: 100vh;
+      }
+    }
+    .happy-2025 {
+      position: fixed;
+      top: 20px;
+      width: 100%;
+      font-size: 40px;
+      color: gold;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="rainCanvas"></canvas>
-    <script>
-        const canvas = document.getElementById('rainCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+  <div class="happy-2025">Happy New Year 2025! 🎉</div>
+  <script>
+    const objects = ['🎈', '🪅', '🍁', '❤️', '🔸', 'Happy New Year 2025! 🎉'];
+    const createObject = () => {
+      const obj = document.createElement('div');
+      obj.className = 'falling-object';
+      obj.textContent = objects[Math.floor(Math.random() * objects.length)];
+      obj.style.left = `${Math.random() * 100}vw`;
+      obj.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      obj.style.color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+      document.body.appendChild(obj);
 
-        const objects = ['🎉', '🪅', '🎈', '🍁', '❤️', '🔸'];
-        const particles = [];
+      setTimeout(() => {
+        obj.remove();
+      }, 5000); // Remove object after it falls
+    };
 
-        function createParticle() {
-            const size = Math.random() * 30 + 20;
-            const x = Math.random() * canvas.width;
-            const y = -size;
-            const speed = Math.random() * 2 + 1;
-            const symbol = objects[Math.floor(Math.random() * objects.length)];
-            return { x, y, size, speed, symbol };
-        }
-
-        function updateParticles() {
-            particles.forEach(p => {
-                p.y += p.speed;
-                if (p.y > canvas.height) {
-                    p.y = -p.size;
-                    p.x = Math.random() * canvas.width;
-                }
-            });
-
-            while (particles.length < 100) {
-                particles.push(createParticle());
-            }
-        }
-
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                ctx.font = `${p.size}px Arial`;
-                ctx.fillText(p.symbol, p.x, p.y);
-            });
-        }
-
-        function animate() {
-            updateParticles();
-            drawParticles();
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        animate();
-    </script>
+    setInterval(createObject, 200);
+  </script>
 </body>
 </html>
