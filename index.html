@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 2025 🎉</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="rainCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const objects = ['🎉', '🪅', '🎈', '🍁', '❤️', '🔸'];
+        const particles = [];
+
+        function createParticle() {
+            const size = Math.random() * 30 + 20;
+            const x = Math.random() * canvas.width;
+            const y = -size;
+            const speed = Math.random() * 2 + 1;
+            const symbol = objects[Math.floor(Math.random() * objects.length)];
+            return { x, y, size, speed, symbol };
+        }
+
+        function updateParticles() {
+            particles.forEach(p => {
+                p.y += p.speed;
+                if (p.y > canvas.height) {
+                    p.y = -p.size;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+
+            while (particles.length < 100) {
+                particles.push(createParticle());
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.font = `${p.size}px Arial`;
+                ctx.fillText(p.symbol, p.x, p.y);
+            });
+        }
+
+        function animate() {
+            updateParticles();
+            drawParticles();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
